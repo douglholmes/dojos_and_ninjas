@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dojos & Ninjas</title>
+</head>
+<body>
+    <h1>Add a Dojo</h1>
+    <form action="dojos/create" method="POST">
+        {% csrf_token %}
+        <label>Name: <input type="text" name="name"></label>
+        <label>City: <input type="text" name="city"></label>
+        <label>State: <input type="text" name="state"></label>
+        <input type="submit" value="Add">
+    </form>
+
+    <h1>Add a Ninja</h1>
+    <form action="ninjas/create" method="POST">
+        {% csrf_token %}
+        <label>First Name: <input type="text" name="first_name"></label>
+        <label>Last Name: <input type="text" name="last_name"></label>
+        <label>Dojo:</label>
+        <select name="dojo" id="dojo"> 
+        {% for dojo in dojos %}
+            <option value="{{dojo.id}}">{{ dojo.name }}</option>
+        {% endfor %}
+        </select>
+        <input type="submit" value="Add">
+    </form>
+
+    <h1>All of the Dojos</h1>
+    {% for dojo in dojos %}
+    <h3>Ninjas at the {{ dojo.name }}</h3>
+    <ul>
+        {% for ninja in dojo.ninjas.all %}
+            <li>{{ ninja.first_name }}  {{ ninja.last_name }}</li>
+        {% endfor %}
+    </ul>
+    {% endfor %}
+
+</body>
+</html>
